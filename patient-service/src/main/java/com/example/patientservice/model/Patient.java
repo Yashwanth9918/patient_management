@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
-import java.lang.annotation.Native;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -35,7 +34,7 @@ public class Patient {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId() {
         this.id = id;
     }
 

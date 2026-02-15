@@ -1,0 +1,4 @@
+### GET request to fetch patients from the patient service
+GET http://localhost:4000/patients
+
+###

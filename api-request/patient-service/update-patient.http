@@ -1,0 +1,11 @@
+### Updates an existing patient record in the system.
+PUT http://localhost:4000/patients/123e4567-e89b-12d3-a456-426614174000
+Content-Type: application/json
+
+{
+  "name" : "Yashwanth Updated",
+  "address": "Guntur District, Andhra Pradesh",
+  "email": "yas@gmail.com",
+  "dateOfBirth": "2004-10-18"
+}
+###
