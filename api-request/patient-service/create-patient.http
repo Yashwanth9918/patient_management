@@ -3,9 +3,9 @@ POST http://localhost:4000/patients
 Content-Type: application/json
 
 {
-  "name" : "Yashwanth",
-  "email" : "yas@gmai.com",
-  "address": "Guntur District, Andhra Pradesh",
+  "name" : "test_billing",
+  "email" : "test_billing@gmai.com",
+  "address": "test address",
   "dateOfBirth": "2004-10-18"
 }
 
