@@ -6,9 +6,12 @@ import com.example.patientservice.dto.PatientResponseDTO;
 import com.example.patientservice.exception.EmailAlreadyExistsException;
 import com.example.patientservice.exception.PatientNotFoundException;
 import com.example.patientservice.grpc.BillingServiceGrpcClient;
+import com.example.patientservice.kafka.kafkaProducer;
 import com.example.patientservice.mapper.PatientMapper;
 import com.example.patientservice.model.Patient;
 import com.example.patientservice.repository.PatientRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
@@ -19,12 +22,15 @@ import java.util.UUID;
 @Service
 public class PatientService {
 
-    private PatientRepository patientRepository;
-    private BillingServiceGrpcClient billingServiceGrpcClient;
+    private static final Logger log = LoggerFactory.getLogger(PatientService.class);
+    private final PatientRepository patientRepository;
+    private final BillingServiceGrpcClient billingServiceGrpcClient;
+    private final kafkaProducer kafkaProducer;
 
-    public PatientService(PatientRepository patientRepository, BillingServiceGrpcClient billingServiceGrpcClient) {
+    public PatientService(PatientRepository patientRepository, BillingServiceGrpcClient billingServiceGrpcClient,kafkaProducer kafkaProducer) {
         this.patientRepository = patientRepository;
         this.billingServiceGrpcClient = billingServiceGrpcClient;
+        this.kafkaProducer = kafkaProducer;
     }
 
     public List<PatientResponseDTO> getPatients (){
@@ -46,6 +52,9 @@ public class PatientService {
                 savedPatient.getName(),
                 savedPatient.getEmail()
             );
+        log.info("Created Patient with Id: " + savedPatient.getId().toString());
+        kafkaProducer.sendEvent(savedPatient);
+
         return PatientMapper.toDTO(savedPatient);
     }
 
